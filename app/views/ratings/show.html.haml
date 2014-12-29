@@ -1,0 +1,21 @@
+%p#notice= notice
+
+%p
+  %b Event:
+  = @rating.event_id
+%p
+  %b Meat:
+  = @rating.meat_id
+%p
+  %b Username:
+  = @rating.username
+%p
+  %b Comment:
+  = @rating.comment
+%p
+  %b Rating:
+  = @rating.rating
+
+= link_to 'Edit', edit_rating_path(@rating)
+\|
+= link_to 'Back', ratings_path

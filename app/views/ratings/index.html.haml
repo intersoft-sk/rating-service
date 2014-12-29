@@ -1,0 +1,29 @@
+%h1 Listing ratings
+
+%table
+  %thead
+    %tr
+      %th Event
+      %th Meat
+      %th Username
+      %th Comment
+      %th Rating
+      %th
+      %th
+      %th
+      
+  %tbody
+    - @ratings.each do |rating|
+      %tr
+        %td= rating.event_id
+        %td= rating.meat_id
+        %td= rating.username
+        %td= rating.comment
+        %td= rating.rating
+        %td= link_to 'Show', rating
+        %td= link_to 'Edit', edit_rating_path(rating)
+        %td= link_to 'Destroy', rating, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Rating', new_rating_path

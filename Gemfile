@@ -43,3 +43,4 @@ group :development, :test do
   gem 'spring'
 end
 
+gem 'haml-rails' #for generating the default views in haml format
