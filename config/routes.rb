@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
+  
+  root :to => redirect('/ratings')
+  
   resources :ratings
 
+  match 'auth/:provider/callback' => 'sessions#create', via: [:get, :post] #, :as => :login
+  match 'logout' => 'sessions#destroy', via: [:get, :post] #, :as => :logout
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

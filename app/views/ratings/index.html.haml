@@ -4,7 +4,7 @@
   %thead
     %tr
       %th Event
-      %th Meat
+      %th Entity
       %th Username
       %th Comment
       %th Rating
@@ -16,7 +16,7 @@
     - @ratings.each do |rating|
       %tr
         %td= rating.event_id
-        %td= rating.meat_id
+        %td= rating.entity_id
         %td= rating.username
         %td= rating.comment
         %td= rating.rating

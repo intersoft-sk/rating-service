@@ -1,0 +1,12 @@
+#login
+= puts 'Ahoj'
+= puts @current_user
+- if @current_user
+  %p.welcome  Welcome, #{@current_user.name}!
+  = link_to 'Log Out', logout_path
+- else
+  %p.login 
+    Log in with your:     
+    = link_to 'Google account', '/auth/google_oauth2'     
+    &nbsp;or as an&nbsp;
+    = link_to 'developer', '/auth/developer'

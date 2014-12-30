@@ -1,10 +1,21 @@
 class RatingsController < ApplicationController
+  
+  respond_to :html, :xml, :json
   before_action :set_rating, only: [:show, :edit, :update, :destroy]
-
+  
   # GET /ratings
   # GET /ratings.json
   def index
-    @ratings = Rating.all
+    @current_user ||= Owner.find_by_id(session[:user_id])    
+    respond_to do |format|
+      format.html {
+        @ratings = Rating.order("updated_at DESC").page(params[:page]).per(15)
+      }
+      format.xml {
+        @ratings = Rating.order("updated_at DESC")
+      }
+    end
+    respond_with(@ratings)
   end
 
   # GET /ratings/1
@@ -69,6 +80,6 @@ class RatingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rating_params
-      params.require(:rating).permit(:event_id, :meat_id, :username, :comment, :rating)
+      params.require(:rating).permit(:event_id, :entity_id, :username, :comment, :rating)
     end
 end

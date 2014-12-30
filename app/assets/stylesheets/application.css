@@ -13,3 +13,93 @@
  *= require_tree .
  *= require_self
  */
+/* Simple CSS styling for Rating Service app */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: White;
+  color: DarkSlateGrey;
+  font-family: arial, sans-serif; /* Verdana, Tahoma, */
+  font-size: 10pt;
+}
+div#main {
+  margin: 0;
+  padding: 0 20px 20px;
+}
+a {
+  background: transparent;
+  color: green; /*maroon*/
+  text-decoration: underline;
+  font-weight: bold;
+}
+h1 {
+  color: green;
+  font-size: 150%;
+  font-style: italic;
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid DarkSlateGrey;
+}
+h1.title {
+  margin: 0 0 1em;
+  padding: 10px;
+  background-color: blue;
+  color: white;
+  border-bottom: 4px solid silver;
+  font-size: 3em;
+  font-style: normal;
+}
+p.login {
+  margin: 0 0 1em;
+  padding: 10px;
+  background-color: LightGreen;
+  color: black;
+  border-bottom: 2px solid green;
+  font-size: 1em;
+  font-style: bold;
+}
+table#entities {
+  margin: 10px;
+  border-collapse: collapse; 
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+table#local_identities  {
+  margin: 20px;
+  border-collapse: collapse; 
+  width: 60%;
+  border-bottom: 1px solid black;
+}
+table#entities th, table#local_identities th {
+  border: 2px solid white;
+  font-weight: bold;
+  font-size: 1.2em;
+  background-color: LightBlue;/* wheat; */
+}
+table#entities td, table#local_identities td {
+     border: 1px solid white;
+  background-color: LightGrey;
+}
+table#entities th, table#local_identities td {
+  padding: 4px;
+  text-align: left;
+}
+#notice, #warning {
+  background: red; /*burlywood;*/
+  margin: 1em 0;
+  padding: 4px;
+}
+form label {
+  display: block;
+  line-height: 25px;
+  font-weight: bold;
+  color: DarkGreen;
+}
+
+.message {
+  color: white;
+  text-align: center;
+  font-weight:bold;
+  font-size: 1.2em;
+}

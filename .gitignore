@@ -15,3 +15,5 @@
 db/schema.rb
 config/database.yml
 server/*
+.env
+.project

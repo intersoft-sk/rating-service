@@ -44,3 +44,13 @@ group :development, :test do
 end
 
 gem 'haml-rails' #for generating the default views in haml format
+
+gem 'omniauth-google-oauth2'
+#gem 'omniauth-github'
+#gem 'omniauth-linkedin'
+
+gem 'dotenv-rails'
+
+gem 'responders', '~> 2.0'
+
+gem 'kaminari'
