@@ -12,10 +12,11 @@ OmniAuth.config.logger = Rails.logger
 #  provider :google_oauth2, '939318209513.apps.googleusercontent.com', 'GRZJM66tGXRIAKJq87ZdHIP9', {access_type: "offline", approval_prompt: ""}#, :provider_ignores_state => true
 #end
 
+#ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET']
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :developer #unless Rails.env.production?
-  provider :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET'], {
+  provider :google_oauth2, '494262113350-uvshdl4n59fj9df70jc569dnntnu8m6g.apps.googleusercontent.com', 'dAqQHBOSqTa3v_zRjE-ucOVC', {    
     :scope => 'email,profile'
   } 
 end
