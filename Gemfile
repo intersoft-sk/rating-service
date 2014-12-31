@@ -54,3 +54,5 @@ gem 'dotenv-rails'
 gem 'responders', '~> 2.0'
 
 gem 'kaminari'
+
+gem 'rails_12factor', group: :production
