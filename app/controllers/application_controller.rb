@@ -22,10 +22,7 @@ class ApplicationController < ActionController::Base
   protected # prevents method from being invoked by a route
   def set_current_user
     # we exploit the fact that find_by_id(nil) returns nil
-    puts 'session[:user_id]='+session[:user_id].to_s
     @current_user ||= Owner.find_by_id(session[:user_id])
-    puts 'No nazdar'
-    puts @current_user
     redirect_to ratings_path and return unless @current_user
   end
   

@@ -12,6 +12,8 @@ class RatingsController < ApplicationController
       raise RatingService::RatingNotFound
     else
       @response = {entityId: eid, calculatedRating: Rating.caculated_rating(eid), comments: Rating.last_n_comments(eid)} 
+      puts "ahoj - 3"
+      puts @response
       respond_with(@response) do |format|  
         format.xml { render :xml => @response }  
         format.html {}
@@ -51,15 +53,30 @@ class RatingsController < ApplicationController
   # POST /ratings
   # POST /ratings.json
   def create
+    new_params = {} # params for LocalID
+    respond_to do |format|
+      format.html { 
+        @owner = Owner.find_by_id(session[:user_id]) 
+        new_params = params        
+        
+      }
+      format.xml {
+        @owner = Owner.find(params[:owner])
+        new_params = params
+      }
+    end 
+    
     @rating = Rating.new(rating_params)
 
     respond_to do |format|
       if @rating.save
         format.html { redirect_to @rating, notice: 'Rating was successfully created.' }
         format.json { render :show, status: :created, location: @rating }
+        format.xml {respond_with @rating}
       else
         format.html { render :new }
         format.json { render json: @rating.errors, status: :unprocessable_entity }
+        format.json { render xml: @rating.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -96,6 +113,8 @@ class RatingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def rating_params
-      params.require(:rating).permit(:event_id, :entity_id, :username, :comment, :rating)
+      puts "Ahoj - 2"
+      puts params
+      params.permit(:event_id, :username, :comment, :entity_id, :rating)
     end
 end

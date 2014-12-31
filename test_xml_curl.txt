@@ -1,0 +1,82 @@
+**************************************************************************
+Operation: addRating( EventId, EntityId, UserName, Comment, Rating, Credentials): Rating
+- create new rating for entity with EntityID 
+- http post operation with specified data - eventId, entityId, username, comment, rating; 
+- owner should be in form of id of existing registered user at running EM
+- curl test form:
+curl -d "event_id=7b4f0c96-6c69-4d42-a971-a730c50fea6b&entity_id=905ba16f-c3f0-41d2-a235-8528ac0e234e&username=marek&owner=3&comment=The best piece of meat ever&rating=5" http://localhost:3000/ratings.xml
+- Result:
+<?xml version="1.0" encoding="UTF-8"?>
+<rating>
+  <id type="integer">23</id>
+  <event-id type="uuid">7b4f0c96-6c69-4d42-a971-a730c50fea6b</event-id>
+  <entity-id type="uuid">905ba16f-c3f0-41d2-a235-8528ac0e234e</entity-id>
+  <username>marek</username>
+  <comment>The best piece of meat ever</comment>
+  <rating type="integer">5</rating>
+  <owner-id type="integer" nil="true"/>
+  <created-at type="dateTime">2014-12-31T11:34:50Z</created-at>
+  <updated-at type="dateTime">2014-12-31T11:34:50Z</updated-at>
+</rating>
+**************************************************************************
+
+**************************************************************************
+Operation: getRating( EntityID): Hash
+- http post operation with specified data - owner (who is asking), uuid (uuid of the entity for which we search the calculated rating)
+- getting hash with entity id, calculated rating value and list of 10 last comments
+- curl test form:
+curl -d "entity_id=8c13927e-4ba7-47fe-ba53-0da323b4e998&owner=3" http://localhost:3000/getRating.xml
+- Result:
+<?xml version="1.0" encoding="UTF-8"?>
+<hash>
+  <entityId>8c13927e-4ba7-47fe-ba53-0da323b4e998</entityId>
+  <calculatedRating type="integer">4</calculatedRating>
+  <comments type="array">
+    <comment>
+      <username>marek</username>
+      <comment>just for testing purposes</comment>
+      <rating type="integer">5</rating>
+    </comment>
+    <comment>
+      <username>marek</username>
+      <comment>just for testing</comment>
+      <rating type="integer">4</rating>
+    </comment>
+    <comment>
+      <username>marek</username>
+      <comment>just for testing</comment>
+      <rating type="integer">5</rating>
+    </comment>
+    <comment>
+      <username>marek</username>
+      <comment>just for testing</comment>
+      <rating type="integer">4</rating>
+    </comment>
+    <comment>
+      <username>marek</username>
+      <comment>just for testing</comment>
+      <rating type="integer">5</rating>
+    </comment>
+    <comment>
+      <username>Name of owner 123456789</username>
+      <comment>comment for entity 8c13927e-4ba7-47fe-ba53-0da323b4e998</comment>
+      <rating type="integer">3</rating>
+    </comment>
+  </comments>
+</hash>
+
+or in case of non existing rating
+
+<hash>
+  <entityId>8c13927e-4ba7-47fe-ba53-0da323b4e999</entityId>
+  <calculatedRating type="integer">0</calculatedRating>
+  <comments type="array"/>
+</hash>
+**************************************************************************
+
+Destination address:
+- if deployed at Heroku, instead of
+http://localhost:3000/ 
+should be used 
+https://rating-service.herokuapp.com/
+**************************************************************************

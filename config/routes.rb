@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   
   resources :ratings
 
-  match 'getRating'  => 'ratings#getRating', via: [:get]
+  match 'getRating'  => 'ratings#getRating', via: [:get, :post]
   
   match 'auth/:provider/callback' => 'sessions#create', via: [:get, :post] #, :as => :login
   match 'logout' => 'sessions#destroy', via: [:get, :post] #, :as => :logout
