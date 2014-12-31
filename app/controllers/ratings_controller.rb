@@ -3,6 +3,22 @@ class RatingsController < ApplicationController
   respond_to :html, :xml, :json
   before_action :set_rating, only: [:show, :edit, :update, :destroy]
   
+  def getRating
+    eid = params[:entity_id]
+    @response = {}
+    @rating = Rating.last_n_comments(eid) 
+    
+    if @rating == nil 
+      raise RatingService::RatingNotFound
+    else
+      @response = {entityId: eid, calculatedRating: Rating.caculated_rating(eid), comments: Rating.last_n_comments(eid)} 
+      respond_with(@response) do |format|  
+        format.xml { render :xml => @response }  
+        format.html {}
+      end  
+    end 
+  end
+  
   # GET /ratings
   # GET /ratings.json
   def index

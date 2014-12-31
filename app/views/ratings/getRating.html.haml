@@ -1,0 +1,28 @@
+-# in app/views/ratings/getRatings.html.haml
+= link_to 'Back to rating list', ratings_path
+
+%h2 Rating of #{@response[:entityId]}
+
+%ul#details
+  %li
+    Entity ID:
+    = @response[:entityId]
+  %li
+    Calculated rating:
+    = @response[:calculatedRating]
+
+%h3 List of last 10 comments
+
+%table#slaves
+  %thead
+    %tr
+      %th User name
+      %th Comment
+      %th Rating               
+  %tbody
+    - @response[:comments].each do |rating|
+      %tr
+        %td= rating[:username] 
+        %td= rating[:comment]
+        %td= rating[:rating]
+
