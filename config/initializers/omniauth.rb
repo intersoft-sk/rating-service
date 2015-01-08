@@ -12,11 +12,18 @@ OmniAuth.config.logger = Rails.logger
 #  provider :google_oauth2, '939318209513.apps.googleusercontent.com', 'GRZJM66tGXRIAKJq87ZdHIP9', {access_type: "offline", approval_prompt: ""}#, :provider_ignores_state => true
 #end
 
-#ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET']
+
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :developer #unless Rails.env.production?
-  provider :google_oauth2, '494262113350-uvshdl4n59fj9df70jc569dnntnu8m6g.apps.googleusercontent.com', 'dAqQHBOSqTa3v_zRjE-ucOVC', {    
+  provider :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET'], {    
     :scope => 'email,profile'
   } 
 end
+
+#By default, OmniAuth 1.1.0 and later raises an exception in development mode when authentication fails. 
+#If you'd prefer it to redirect to a failure page instead, you can include the following code to your 
+#omniauth configuration:
+OmniAuth.config.on_failure = Proc.new { |env|
+  OmniAuth::FailureEndpoint.new(env).redirect_to_failure
+}

@@ -14,4 +14,8 @@ class SessionsController < ApplicationController
     flash[:notice] = 'Logged out successfully.'
     redirect_to ratings_path
   end
+  def failure
+    flash[:notice] = 'Failed authentication, please try again!'
+    redirect_to ratings_path
+  end
 end

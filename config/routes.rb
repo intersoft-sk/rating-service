@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   match 'getRating'  => 'ratings#getRating', via: [:get, :post]
   
   match 'auth/:provider/callback' => 'sessions#create', via: [:get, :post] #, :as => :login
+  match 'auth/failure' => 'sessions#failure', via: [:get, :post]
   match 'logout' => 'sessions#destroy', via: [:get, :post] #, :as => :logout
   
   # The priority is based upon order of creation: first created -> highest priority.

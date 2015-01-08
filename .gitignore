@@ -17,3 +17,6 @@ config/database.yml
 server/*
 .env
 .project
+
+# Ignore application configuration
+/config/application.yml
