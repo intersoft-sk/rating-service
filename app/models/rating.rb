@@ -20,6 +20,20 @@ class Rating < ActiveRecord::Base
     return ret10
   end
   
+  def self.last_n_comments_from_array(entities, n=10)
+    if (!n.is_a? Numeric) 
+      n = 10
+    else
+      n = n.ceil.abs
+    end
+    last10 = Rating.where({entity_id: entities}).limit(n).order('id desc')
+    ret10 = []
+    last10.each do |rating|      
+      ret10 = ret10 << {username: rating.username, comment: rating.comment, rating: rating.rating}
+    end
+    return ret10
+  end
+  
   def self.caculated_rating(entity_id)
     calcRatings = 0
     nrRatings = 0
@@ -28,7 +42,7 @@ class Rating < ActiveRecord::Base
       nrRatings = nrRatings + 1
     end
     if nrRatings == 0
-      return 0
+      raise RatingService::RatingNotFound
     else
       return calcRatings/nrRatings
     end

@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.1.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -56,6 +57,8 @@ gem 'responders', '~> 2.0'
 gem 'kaminari'
 
 gem 'rails_12factor', group: :production
+gem 'newrelic_rpm', group: :production
 
 gem 'figaro'
 
+gem 'activeresource'

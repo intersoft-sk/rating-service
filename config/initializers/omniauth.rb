@@ -16,6 +16,8 @@ OmniAuth.config.logger = Rails.logger
 
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :developer #unless Rails.env.production?
+  #  :fields => [:first_name, :last_name],
+  #  :uid_field => :last_name 
   provider :google_oauth2, ENV['GOOGLE_KEY'], ENV['GOOGLE_SECRET'], {    
     :scope => 'email,profile'
   } 

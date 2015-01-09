@@ -6,20 +6,48 @@ class RatingsController < ApplicationController
   def getRating
     eid = params[:entity_id]
     @response = {}
-    @rating = Rating.last_n_comments(eid) 
     
-    if @rating == nil 
-      raise RatingService::RatingNotFound
-    else
-      @response = {entityId: eid, calculatedRating: Rating.caculated_rating(eid), comments: Rating.last_n_comments(eid)} 
-      puts "ahoj - 3"
-      puts @response
-      respond_with(@response) do |format|  
-        format.xml { render :xml => @response }  
-        format.html {}
-      end  
+    @response = {entityId: eid, calculatedRating: Rating.caculated_rating(eid), 
+      comments: Rating.last_n_comments(eid)} 
+    puts @response
+    respond_with(@response) do |format|  
+      format.xml { render :xml => @response }  
+      format.html {}     
     end 
   end
+  
+  def getMeatRating
+    eid = params[:entity_id]
+    @parent = Relationship.get(:getMasters, {:uuid => eid, :owner => "3"})
+    
+    return getRating unless @parent.length > 0
+    @siblings = {}
+    @parent.each do |master|
+      slaves = Relationship.get(:getSlaves, {:uuid => master["uuid"], :owner => "3"})
+      slaves.each do |slave|
+        @siblings[slave["uuid"]] = slave
+      end    
+    end
+    calcRatings = 0
+    nrRatings = 0
+    @siblings.each do |uuid, entity|
+      calcRatings = calcRatings + Rating.caculated_rating(uuid)
+      nrRatings = nrRatings + 1  
+    end
+    if nrRatings == 0 || @siblings == nil
+      raise RatingService::RatingNotFound    
+    end
+    
+    @response = {}    
+    @response = {entityId: eid, calculatedRating: calcRatings/nrRatings, 
+      comments: Rating.last_n_comments_from_array(@siblings.keys)} 
+    puts @response
+    respond_with(@response) do |format|  
+      format.xml { render :xml => @response }  
+      format.html {}     
+    end
+  end
+  
   
   # GET /ratings
   # GET /ratings.json
@@ -112,9 +140,8 @@ class RatingsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def rating_params
-      puts "Ahoj - 2"
-      puts params
-      params.permit(:event_id, :username, :comment, :entity_id, :rating)
+    def rating_params            
+      params.require(:rating) 
+      params[:rating].permit(:event_id, :entity_id, :username, :comment, :rating)
     end
 end

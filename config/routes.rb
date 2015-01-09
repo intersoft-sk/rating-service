@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :ratings
 
   match 'getRating'  => 'ratings#getRating', via: [:get, :post]
+  match 'getMeatRating'  => 'ratings#getMeatRating', via: [:get, :post]
   
   match 'auth/:provider/callback' => 'sessions#create', via: [:get, :post] #, :as => :login
   match 'auth/failure' => 'sessions#failure', via: [:get, :post]

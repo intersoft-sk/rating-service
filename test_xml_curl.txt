@@ -67,10 +67,63 @@ curl -d "entity_id=8c13927e-4ba7-47fe-ba53-0da323b4e998&owner=3" http://localhos
 
 or in case of non existing rating
 
+<?xml version="1.0" encoding="UTF-8"?>
 <hash>
-  <entityId>8c13927e-4ba7-47fe-ba53-0da323b4e999</entityId>
-  <calculatedRating type="integer">0</calculatedRating>
-  <comments type="array"/>
+  <error>Rating not found.</error>
+</hash>
+**************************************************************************
+
+**************************************************************************
+Operation: getMeatRating( EntityID): Hash
+- http post operation with specified data - owner (who is asking), uuid (uuid of the entity of meat cut for which we
+ search for the calculated rating)
+- getting hash with entity id, calculated rating value and list of 10 last comments
+- curl test form:
+curl -d "entity_id=56ad9235-a166-4bd2-b7b7-af7a3f5d86d5&owner=3" http://localhost:3000/getMeatRating.xml
+- Result:
+<?xml version="1.0" encoding="UTF-8"?>
+<hash>
+  <entityId>56ad9235-a166-4bd2-b7b7-af7a3f5d86d5</entityId>
+  <calculatedRating type="integer">3</calculatedRating>
+  <comments type="array">
+    <comment>
+      <username>marek</username>
+      <comment>koment 3</comment>
+      <rating type="integer">1</rating>
+    </comment>
+    <comment>
+      <username>marek</username>
+      <comment>koment 2</comment>
+      <rating type="integer">5</rating>
+    </comment>
+    <comment>
+      <username>marek</username>
+      <comment></comment>
+      <rating type="integer">4</rating>
+    </comment>
+  </comments>
+</hash>
+
+or in case of non existing master entity - identical to getRating(EntityID)
+
+<?xml version="1.0" encoding="UTF-8"?>
+<hash>
+  <entityId>7c1875d4-a3b3-44f8-986f-0c6f6ec3c008</entityId>
+  <calculatedRating type="integer">3</calculatedRating>
+  <comments type="array">
+    <comment>
+      <username>mmmarek</username>
+      <comment>koment novy koment</comment>
+      <rating type="integer">3</rating>
+    </comment>
+  </comments>
+</hash>
+
+or in case non existing master and non existing rating
+
+<?xml version="1.0" encoding="UTF-8"?>
+<hash>
+  <error>Rating not found.</error>
 </hash>
 **************************************************************************
 
