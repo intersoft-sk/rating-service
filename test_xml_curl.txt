@@ -71,34 +71,53 @@ or in case of non existing rating
 <hash>
   <error>Rating not found.</error>
 </hash>
+
+
+- curl test form:
+curl -d "entity_id=9908f3c5-27ab-4d65-8e95-e6d5c37a4065&owner=3" http://rating-service.herokuapp.com/getRating.xml
+- Result2:
+<?xml version="1.0" encoding="UTF-8"?>
+<hash>
+  <entityId>9908f3c5-27ab-4d65-8e95-e6d5c37a4065</entityId>
+  <calculatedRating type="integer">2</calculatedRating>
+  <comments type="array">
+    <comment>
+      <username></username>
+      <comment>rating for meat cut 1 from bulk beef 1a</comment>
+      <rating type="integer">2</rating>
+    </comment>
+  </comments>
+</hash>
 **************************************************************************
 
 **************************************************************************
 Operation: getMeatRating( EntityID): Hash
-- http post operation with specified data - owner (who is asking), uuid (uuid of the entity of meat cut for which we
- search for the calculated rating)
+- http post operation with specified data - owner (who is asking), uuid (uuid of the entity 
+of meat cut for which we search for the calculated rating)
+- contacts Entity Manager, get list of all masters (parents - i.e. eid of bulk beefs) of given 
+entity and calculates rating from all their childrens - i.e. meet cuts from the same bulk 
 - getting hash with entity id, calculated rating value and list of 10 last comments
 - curl test form:
-curl -d "entity_id=56ad9235-a166-4bd2-b7b7-af7a3f5d86d5&owner=3" http://localhost:3000/getMeatRating.xml
+curl -d "entity_id=9908f3c5-27ab-4d65-8e95-e6d5c37a4065&owner=3" http://rating-service.herokuapp.com/getMeatRating.xml
 - Result:
 <?xml version="1.0" encoding="UTF-8"?>
 <hash>
-  <entityId>56ad9235-a166-4bd2-b7b7-af7a3f5d86d5</entityId>
+  <entityId>9908f3c5-27ab-4d65-8e95-e6d5c37a4065</entityId>
   <calculatedRating type="integer">3</calculatedRating>
   <comments type="array">
     <comment>
       <username>marek</username>
-      <comment>koment 3</comment>
-      <rating type="integer">1</rating>
+      <comment>rating for meat cut 3 from bulk beef 1a</comment>
+      <rating type="integer">3</rating>
+    </comment>
+    <comment>
+      <username></username>
+      <comment>rating for meat cut 1 from bulk beef 1a</comment>
+      <rating type="integer">2</rating>
     </comment>
     <comment>
       <username>marek</username>
-      <comment>koment 2</comment>
-      <rating type="integer">5</rating>
-    </comment>
-    <comment>
-      <username>marek</username>
-      <comment></comment>
+      <comment>rating for meat cut 2 from bulk beef 1a</comment>
       <rating type="integer">4</rating>
     </comment>
   </comments>
@@ -112,8 +131,8 @@ or in case of non existing master entity - identical to getRating(EntityID)
   <calculatedRating type="integer">3</calculatedRating>
   <comments type="array">
     <comment>
-      <username>mmmarek</username>
-      <comment>koment novy koment</comment>
+      <username>marek</username>
+      <comment>some comment is here</comment>
       <rating type="integer">3</rating>
     </comment>
   </comments>
