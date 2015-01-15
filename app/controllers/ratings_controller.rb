@@ -104,7 +104,7 @@ class RatingsController < ApplicationController
       else
         format.html { render :new }
         format.json { render json: @rating.errors, status: :unprocessable_entity }
-        format.json { render xml: @rating.errors, status: :unprocessable_entity }
+        format.xml { render xml: @rating.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -143,7 +143,7 @@ class RatingsController < ApplicationController
     def rating_params            
       params.require(:rating)
       if params[:rating].is_a? String
-        params.permit(:event_id, :entity_id, :username, :comment)
+        params.permit(:event_id, :entity_id, :username, :comment, :rating)
       else
         params[:rating].permit(:event_id, :entity_id, :username, :comment, :rating)
       end           
