@@ -143,7 +143,7 @@ class RatingsController < ApplicationController
     def rating_params            
       params.require(:rating)
       if params[:rating].class == 'String'
-        params.permit(:event_id, :entity_id, :username, :comment, :rating)
+        params.permit(:event_id, :entity_id, :username, :comment)
       else
         params[:rating].permit(:event_id, :entity_id, :username, :comment, :rating)
       end           
