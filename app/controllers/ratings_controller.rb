@@ -142,7 +142,7 @@ class RatingsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def rating_params            
       params.require(:rating)
-      if params[:rating].class == 'String'
+      if params[:rating].class.is_a? String
         params.permit(:event_id, :entity_id, :username, :comment)
       else
         params[:rating].permit(:event_id, :entity_id, :username, :comment, :rating)
