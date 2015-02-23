@@ -27,7 +27,227 @@
         </ul>
       </header>
       <section>
-        <p>...</p>
+        <p>Rating service is ebbits general service for storing the ratings of any entity.</p>
+
+<h3>
+<a id="note" class="anchor" href="#note" aria-hidden="true"><span class="octicon octicon-link"></span></a>Note:</h3>
+
+<p>In the following examples, the destination address depends on the deployment:
+If deployed at Heroku, instead of
+<a href="http://localhost:3000/">http://localhost:3000/</a> 
+should be used 
+<a href="https://rating-service.herokuapp.com/">https://rating-service.herokuapp.com/</a></p>
+
+<h2>
+<a id="rating-service-supports-the-following-api" class="anchor" href="#rating-service-supports-the-following-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rating Service supports the following API:</h2>
+
+<h2>
+<a id="addrating-eventid-entityid-username-comment-rating-credentials-rating" class="anchor" href="#addrating-eventid-entityid-username-comment-rating-credentials-rating" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>addRating( EventID, EntityID, UserName, Comment, Rating, Credentials): Rating</code>
+</h2>
+
+<p>Create new rating for entity with EntityID.</p>
+
+<h3>
+<a id="parameters" class="anchor" href="#parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Parameters</code>
+</h3>
+
+<p><em>EventID (optional)</em> ID of the event that represents the ranting carried out by the user.</p>
+
+<p><em>EntityID</em> UUID of the rated entity.</p>
+
+<p><em>Username (optional)</em> Name of the author of the rating.</p>
+
+<p><em>Comment (optional)</em> Text describing experience that user wants to share.</p>
+
+<p><em>Rating</em> A number from 1-5 - i.e. rating itself.</p>
+
+<p><em>Credentials</em> Data necessary for identification and authorization of authority that is using the registration service.</p>
+
+<h3>
+<a id="returns" class="anchor" href="#returns" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Returns</code>
+</h3>
+
+<p>The function returns XML serialization of the successfully registered rating or error message in case of failure.</p>
+
+<h3>
+<a id="example-of-the-request-and-result" class="anchor" href="#example-of-the-request-and-result" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Example of the request and result</code>
+</h3>
+
+<pre><code>curl -d "event_id=7b4f0c96-6c69-4d42-a971-a730c50fea6b&amp;entity_id=905ba16f-c3f0-41d2-a235-8528ac0e234e&amp;username=marek&amp;owner=3&amp;comment=The best piece of meat ever&amp;rating=5" http://localhost:3000/ratings.xml
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;rating&gt;
+  &lt;id type="integer"&gt;23&lt;/id&gt;
+  &lt;event-id type="uuid"&gt;7b4f0c96-6c69-4d42-a971-a730c50fea6b&lt;/event-id&gt;
+  &lt;entity-id type="uuid"&gt;905ba16f-c3f0-41d2-a235-8528ac0e234e&lt;/entity-id&gt;
+  &lt;username&gt;marek&lt;/username&gt;
+  &lt;comment&gt;The best piece of meat ever&lt;/comment&gt;
+  &lt;rating type="integer"&gt;5&lt;/rating&gt;
+  &lt;owner-id type="integer" nil="true"/&gt;
+  &lt;created-at type="dateTime"&gt;2014-12-31T11:34:50Z&lt;/created-at&gt;
+  &lt;updated-at type="dateTime"&gt;2014-12-31T11:34:50Z&lt;/updated-at&gt;
+&lt;/rating&gt;
+</code></pre>
+
+<h2>
+<a id="getrating-entityid-credentials-hash" class="anchor" href="#getrating-entityid-credentials-hash" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>getRating( EntityID, Credentials): Hash</code>
+</h2>
+
+<p>Getting hash with entity id, calculated rating value and list of 10 last comments.</p>
+
+<h3>
+<a id="parameters-1" class="anchor" href="#parameters-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Parameters</code>
+</h3>
+
+<p><em>EbbitsID</em>  The UUID of the entity for which we search the calculated rating.</p>
+
+<p><em>Credentials</em> Data necessary for identification and authorization of authority that is using the registration service.</p>
+
+<h3>
+<a id="returns-1" class="anchor" href="#returns-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Returns</code>
+</h3>
+
+<p>The function returns XML serialization with the calculated rating for given entity and last 10 comments. The calculated rating is simple average value from all registered ratings for given entity.</p>
+
+<h3>
+<a id="example-of-the-request-and-result-1" class="anchor" href="#example-of-the-request-and-result-1" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Example of the request and result</code>
+</h3>
+
+<pre><code>curl -d "entity_id=8c13927e-4ba7-47fe-ba53-0da323b4e998&amp;owner=3" http://localhost:3000/getRating.xml
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;hash&gt;
+  &lt;entityId&gt;8c13927e-4ba7-47fe-ba53-0da323b4e998&lt;/entityId&gt;
+  &lt;calculatedRating type="integer"&gt;4&lt;/calculatedRating&gt;
+  &lt;comments type="array"&gt;
+    &lt;comment&gt;
+      &lt;username&gt;marek&lt;/username&gt;
+      &lt;comment&gt;just for testing purposes&lt;/comment&gt;
+      &lt;rating type="integer"&gt;5&lt;/rating&gt;
+    &lt;/comment&gt;
+    &lt;comment&gt;
+      &lt;username&gt;marek&lt;/username&gt;
+      &lt;comment&gt;just for testing&lt;/comment&gt;
+      &lt;rating type="integer"&gt;4&lt;/rating&gt;
+    &lt;/comment&gt;
+    &lt;comment&gt;
+      &lt;username&gt;marek&lt;/username&gt;
+      &lt;comment&gt;just for testing&lt;/comment&gt;
+      &lt;rating type="integer"&gt;5&lt;/rating&gt;
+    &lt;/comment&gt;
+    &lt;comment&gt;
+      &lt;username&gt;marek&lt;/username&gt;
+      &lt;comment&gt;just for testing&lt;/comment&gt;
+      &lt;rating type="integer"&gt;4&lt;/rating&gt;
+    &lt;/comment&gt;
+    &lt;comment&gt;
+      &lt;username&gt;marek&lt;/username&gt;
+      &lt;comment&gt;just for testing&lt;/comment&gt;
+      &lt;rating type="integer"&gt;5&lt;/rating&gt;
+    &lt;/comment&gt;
+    &lt;comment&gt;
+      &lt;username&gt;Name of owner 123456789&lt;/username&gt;
+      &lt;comment&gt;comment for entity 8c13927e-4ba7-47fe-ba53-0da323b4e998&lt;/comment&gt;
+      &lt;rating type="integer"&gt;3&lt;/rating&gt;
+    &lt;/comment&gt;
+  &lt;/comments&gt;
+&lt;/hash&gt;
+
+or in case of non existing rating
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;hash&gt;
+  &lt;error&gt;Rating not found.&lt;/error&gt;
+&lt;/hash&gt;
+</code></pre>
+
+<pre><code>curl -d "entity_id=9908f3c5-27ab-4d65-8e95-e6d5c37a4065&amp;owner=3" http://rating-service.herokuapp.com/getRating.xml
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;hash&gt;
+  &lt;entityId&gt;9908f3c5-27ab-4d65-8e95-e6d5c37a4065&lt;/entityId&gt;
+  &lt;calculatedRating type="integer"&gt;2&lt;/calculatedRating&gt;
+  &lt;comments type="array"&gt;
+    &lt;comment&gt;
+      &lt;username&gt;&lt;/username&gt;
+      &lt;comment&gt;rating for meat cut 1 from bulk beef 1a&lt;/comment&gt;
+      &lt;rating type="integer"&gt;2&lt;/rating&gt;
+    &lt;/comment&gt;
+  &lt;/comments&gt;
+&lt;/hash&gt;
+</code></pre>
+
+<h2>
+<a id="getmeatrating-entityid-credentials-hash" class="anchor" href="#getmeatrating-entityid-credentials-hash" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>getMeatRating( EntityID, Credentials): Hash</code>
+</h2>
+
+<p>Getting calculated rating for a given entity that suppose to be a meat cut from a bulk-beef. It contacts Entity Manager, get list of all masters (parents - i.e. IDs of bulk beefs) of given entity and calculates rating from all their children - i.e. meet cuts from the same bulk.</p>
+
+<h3>
+<a id="parameters-2" class="anchor" href="#parameters-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Parameters</code>
+</h3>
+
+<p><em>EbbitsID</em>  The UUID of the entity of meat cut for which we search for the calculated rating.</p>
+
+<p><em>Credentials</em> Data necessary for identification and authorization of authority that is using the registration service.</p>
+
+<h3>
+<a id="returns-2" class="anchor" href="#returns-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Returns</code>
+</h3>
+
+<p>The function returns XML serialization with the calculated rating for given entity and last 10 comments. The calculated rating is simple average value from all registered ratings for meat cuts of corresponding bulk beef.</p>
+
+<h3>
+<a id="example-of-the-request-and-result-2" class="anchor" href="#example-of-the-request-and-result-2" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>Example of the request and result</code>
+</h3>
+
+<pre><code>curl -d "entity_id=9908f3c5-27ab-4d65-8e95-e6d5c37a4065&amp;owner=3" http://rating-service.herokuapp.com/getMeatRating.xml
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;hash&gt;
+  &lt;entityId&gt;9908f3c5-27ab-4d65-8e95-e6d5c37a4065&lt;/entityId&gt;
+  &lt;calculatedRating type="integer"&gt;3&lt;/calculatedRating&gt;
+  &lt;comments type="array"&gt;
+    &lt;comment&gt;
+      &lt;username&gt;marek&lt;/username&gt;
+      &lt;comment&gt;rating for meat cut 3 from bulk beef 1a&lt;/comment&gt;
+      &lt;rating type="integer"&gt;3&lt;/rating&gt;
+    &lt;/comment&gt;
+    &lt;comment&gt;
+      &lt;username&gt;&lt;/username&gt;
+      &lt;comment&gt;rating for meat cut 1 from bulk beef 1a&lt;/comment&gt;
+      &lt;rating type="integer"&gt;2&lt;/rating&gt;
+    &lt;/comment&gt;
+    &lt;comment&gt;
+      &lt;username&gt;marek&lt;/username&gt;
+      &lt;comment&gt;rating for meat cut 2 from bulk beef 1a&lt;/comment&gt;
+      &lt;rating type="integer"&gt;4&lt;/rating&gt;
+    &lt;/comment&gt;
+  &lt;/comments&gt;
+&lt;/hash&gt;
+
+or in case of non existing master entity - identical to getRating(EntityID)
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;hash&gt;
+  &lt;entityId&gt;7c1875d4-a3b3-44f8-986f-0c6f6ec3c008&lt;/entityId&gt;
+  &lt;calculatedRating type="integer"&gt;3&lt;/calculatedRating&gt;
+  &lt;comments type="array"&gt;
+    &lt;comment&gt;
+      &lt;username&gt;marek&lt;/username&gt;
+      &lt;comment&gt;some comment is here&lt;/comment&gt;
+      &lt;rating type="integer"&gt;3&lt;/rating&gt;
+    &lt;/comment&gt;
+  &lt;/comments&gt;
+&lt;/hash&gt;
+
+or in case non existing master and non existing rating
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;hash&gt;
+  &lt;error&gt;Rating not found.&lt;/error&gt;
+&lt;/hash&gt;
+</code></pre>
       </section>
     </div>
     <footer>
