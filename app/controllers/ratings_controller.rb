@@ -28,12 +28,23 @@ class RatingsController < ApplicationController
         @siblings[slave["uuid"]] = slave
       end    
     end
+    
     calcRatings = 0
     nrRatings = 0
     @siblings.each do |uuid, entity|
-      calcRatings = calcRatings + Rating.caculated_rating(uuid)
-      nrRatings = nrRatings + 1  
+      begin
+        r = Rating.caculated_rating(uuid)
+      rescue RatingService::RatingNotFound
+        r = 0
+      end
+      
+      calcRatings = calcRatings + r
+       
+      if r != 0
+        nrRatings = nrRatings + 1
+      end  
     end
+    
     if nrRatings == 0 || @siblings == nil
       raise RatingService::RatingNotFound    
     end

@@ -42,7 +42,7 @@ class Rating < ActiveRecord::Base
       nrRatings = nrRatings + 1
     end
     if nrRatings == 0
-      raise RatingService::RatingNotFound
+      raise RatingService::RatingNotFound #return 0 
     else
       return calcRatings/nrRatings
     end
