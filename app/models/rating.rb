@@ -40,11 +40,12 @@ class Rating < ActiveRecord::Base
     Rating.where("entity_id = ?", entity_id).each do |rating|
       calcRatings = calcRatings + rating.rating
       nrRatings = nrRatings + 1
-    end
+    end    
+    
     if nrRatings == 0
       raise RatingService::RatingNotFound #return 0 
     else
-      return calcRatings/nrRatings
+      return (calcRatings.to_f/nrRatings)
     end
   end
 end

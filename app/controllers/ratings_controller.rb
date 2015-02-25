@@ -50,7 +50,7 @@ class RatingsController < ApplicationController
     end
     
     @response = {}    
-    @response = {entityId: eid, calculatedRating: calcRatings/nrRatings, 
+    @response = {entityId: eid, calculatedRating: (calcRatings.to_f/nrRatings), 
       comments: Rating.last_n_comments_from_array(@siblings.keys)} 
     puts @response
     respond_with(@response) do |format|  
